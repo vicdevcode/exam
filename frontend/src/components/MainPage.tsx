@@ -11,6 +11,7 @@ import {
 import { Button } from "./ui/button";
 import { BlockMath, InlineMath } from "react-katex";
 import { EditCard } from "./EditCard";
+import { CardModal } from "./CardModal";
 
 interface Category {
   label: string;
@@ -30,7 +31,24 @@ interface Cards {
   sub_category_id: number;
 }
 
+interface All {
+  id: number;
+  name: string;
+  sub_categories: {
+    id: number;
+    name: string;
+    category_id: number;
+    cards: {
+      id: number;
+      question: string;
+      answer: string;
+      sub_category_id: number;
+    }[];
+  }[];
+}
+
 const MainPage: FC = () => {
+  const [all, setAll] = useState<All[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
   const [cards, setCards] = useState<Cards[]>([]);
@@ -48,6 +66,7 @@ const MainPage: FC = () => {
     const s = [];
     const q = [];
 
+    setAll(json["categories"]);
     for (let i = 0; i < json["categories"].length; i++) {
       c.push({
         value: json["categories"][i]["id"],
@@ -101,18 +120,6 @@ const MainPage: FC = () => {
         return part;
       }
     });
-    //const parts = text.split(/(\$\$.*?\$\$|\$.*?\$)/g).filter(Boolean);
-    //return parts.map((part, index) => {
-    //  if (part.startsWith("$$") && part.endsWith("$$")) {
-    //    const math = part.slice(2, -2).replace(/\\\\/g, "\\");
-    //    return <BlockMath key={index} math={math} />;
-    //  } else if (part.startsWith("$") && part.endsWith("$")) {
-    //    const math = part.slice(1, -1).replace(/\\\\/g, "\\");
-    //    return <InlineMath key={index} math={math} />;
-    //  } else {
-    //    return part;
-    //  }
-    //});
   };
 
   const next = () => {
@@ -208,6 +215,30 @@ const MainPage: FC = () => {
             </Card>
           )}
         </div>
+      </div>
+      <div>
+        {all.map((a) => (
+          <div key={a.id}>
+            <span className="text-3xl">{a.name}</span>
+            {a.sub_categories.map((s) => (
+              <div>
+                <span className="text-lg">{s.name}</span>
+                {s.cards.map((c) => (
+                  <div>
+                    <CardModal
+                      subCategories={subCategories}
+                      question={c.question}
+                      answer={c.answer}
+                      sub_category_id={c.sub_category_id}
+                      id={c.id}
+                      key={c.id}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );
