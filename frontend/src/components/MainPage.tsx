@@ -87,9 +87,11 @@ const MainPage: FC = () => {
   };
 
   const processText = (text: string) => {
-    const parts = text.split(/(\$\$.*?\$\$|\$.*?\$)/g).filter(Boolean);
+    const parts = text.split(/(\$\$.*?\$\$|\$.*?\$|\n)/g).filter(Boolean);
     return parts.map((part, index) => {
-      if (part.startsWith("$$") && part.endsWith("$$")) {
+      if (part === "\n") {
+        return <br key={index} />;
+      } else if (part.startsWith("$$") && part.endsWith("$$")) {
         const math = part.slice(2, -2).replace(/\\\\/g, "\\");
         return <BlockMath key={index} math={math} />;
       } else if (part.startsWith("$") && part.endsWith("$")) {
@@ -99,6 +101,18 @@ const MainPage: FC = () => {
         return part;
       }
     });
+    //const parts = text.split(/(\$\$.*?\$\$|\$.*?\$)/g).filter(Boolean);
+    //return parts.map((part, index) => {
+    //  if (part.startsWith("$$") && part.endsWith("$$")) {
+    //    const math = part.slice(2, -2).replace(/\\\\/g, "\\");
+    //    return <BlockMath key={index} math={math} />;
+    //  } else if (part.startsWith("$") && part.endsWith("$")) {
+    //    const math = part.slice(1, -1).replace(/\\\\/g, "\\");
+    //    return <InlineMath key={index} math={math} />;
+    //  } else {
+    //    return part;
+    //  }
+    //});
   };
 
   const next = () => {

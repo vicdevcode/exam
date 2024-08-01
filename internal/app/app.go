@@ -29,6 +29,7 @@ func Run(cfg *config.Config) {
 		gin.SetMode(gin.DebugMode)
 	} else {
 		Migrate("create", db)
+		// addData(uc)
 	}
 
 	handler := gin.Default()
