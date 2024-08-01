@@ -17,7 +17,7 @@ import (
 )
 
 func Run(cfg *config.Config) {
-	db, err := sqlite.New(cfg.DatabasePath)
+	db, err := sqlite.New(&cfg.Postgres)
 	if err != nil {
 		panic(err)
 	}
@@ -27,6 +27,8 @@ func Run(cfg *config.Config) {
 	gin.SetMode(gin.ReleaseMode)
 	if cfg.Env == "local" {
 		gin.SetMode(gin.DebugMode)
+	} else {
+		Migrate("create", db)
 	}
 
 	handler := gin.Default()

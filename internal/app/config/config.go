@@ -15,6 +15,15 @@ type Config struct {
 	DatabasePath   string        `yaml:"database_path"   env-required:"true"`
 	Host           string        `yaml:"host"            env-required:"true"`
 	Port           string        `yaml:"port"            env-required:"true"`
+	Postgres       `yaml:"postgres" env-required:"true"`
+}
+
+type Postgres struct {
+	Host     string `yaml:"host"     env-required:"true"`
+	Port     string `yaml:"port"     env-required:"true"`
+	Username string `yaml:"username" env-required:"true"`
+	Password string `yaml:"password" env-required:"true"`
+	Database string `yaml:"database" env-required:"true"`
 }
 
 func MustLoad() *Config {

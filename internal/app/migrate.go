@@ -31,9 +31,9 @@ func Migrate(runType string, db *sqlite.Sqlite) {
 
 func create(db *sqlite.Sqlite) error {
 	if err := db.AutoMigrate(
+		&entity.Category{},
 		&entity.SubCategory{},
 		&entity.Card{},
-		&entity.Category{},
 	); err != nil {
 		return err
 	}
@@ -41,7 +41,7 @@ func create(db *sqlite.Sqlite) error {
 }
 
 func drop(db *sqlite.Sqlite) error {
-	tables := []string{"items", "categories", "sub_categories"}
+	tables := []string{"cards", "sub_categories", "categories"}
 	for _, t := range tables {
 		if err := db.Exec(fmt.Sprintf("DROP TABLE IF EXISTS %s", t)).Error; err != nil {
 			return err
