@@ -38,7 +38,7 @@ const MainPage: FC = () => {
   const [revealCard, setRevealCard] = useState<boolean>(false);
 
   const getCategories = async () => {
-    const res = await fetch("http://localhost:5000/api/category/all", {
+    const res = await fetch("/api/category/all", {
       method: "GET",
     });
 

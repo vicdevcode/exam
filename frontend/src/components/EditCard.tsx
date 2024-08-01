@@ -83,7 +83,7 @@ export const EditCard: FC<AddCardProps> = ({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const res = await fetch("http://localhost:5000/api/card/update", {
+    const res = await fetch("/api/card/update", {
       method: "POST",
       body: JSON.stringify(values),
     });

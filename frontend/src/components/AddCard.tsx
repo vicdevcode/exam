@@ -70,7 +70,7 @@ export const AddCard: FC<AddCardProps> = ({ subCategories }) => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const res = await fetch("http://localhost:5000/api/card/create", {
+    const res = await fetch("/api/card/create", {
       method: "POST",
       body: JSON.stringify(values),
     });
