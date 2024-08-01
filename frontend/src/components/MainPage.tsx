@@ -83,7 +83,7 @@ const MainPage: FC = () => {
     }
     setCategories(c);
     setSubCategories(s);
-    setCards(q);
+    setCards(q.sort(() => Math.random() - 0.5));
   };
 
   const processText = (text: string) => {
